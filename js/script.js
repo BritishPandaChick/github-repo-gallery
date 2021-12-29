@@ -24,8 +24,8 @@ gitUserInfo();
 const displayUserInfo = function (data) {
     const div = document.createElement("div");
     div.classList.add("user-info");
-    div.innerHTML = 
-    `<figure>
+    div.innerHTML = `
+    <figure>
       <img alt="user avatar" src=${data.avatar_url} />
     </figure>
 
@@ -36,11 +36,11 @@ const displayUserInfo = function (data) {
       <p><strong>Number of public repos:</strong> ${data.public_repos}</p>
     </div> `;
   overview.append(div);
-  gitRepos();
+  gitRepos(username);
 };
 
 //Fetch your repos 
-const gitRepos = async function () {
+const gitRepos = async function (username) {
   const fetchRepos = await fetch(`http://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
   const repoData = await fetchRepos.json();
   displayRepos(repoData);
@@ -72,7 +72,7 @@ reposList.addEventListener("click", function (e) {
 const getRepoInfo = async function (repoName) {
   const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
   const repoInfo = await fetchInfo.json();
-  console.log(repoInfo);
+  //console.log(repoInfo);
 
   //Grab languages
   const fetchLanguages = await fetch(repoInfo.languages_url);
@@ -81,7 +81,6 @@ const getRepoInfo = async function (repoName) {
   
   //Make a list of languages
   const languages = [];
-
   for (const language in languageData) {
     languages.push(language);
     //console.log(languages);
@@ -104,7 +103,6 @@ const displayRepoInfo = function (repoInfo, languages) {
     <p>Languages: ${languages.join(", ")}</p>
     <a href="visit" href="${repoInfo.html_url}" target="_blank" rel="noreferrer noopener">View Repo on Github!</a>
   `;
-
   repoData.append(div);
 }
 
@@ -124,7 +122,6 @@ filterInput.addEventListener("input", function (e) {
 
   for (const repo of repos) {
     const repoLowerText = repo.innerText.toLowerCase();
-
     if (repoLowerText.includes(searchLowerText)) {
       repo.classList.remove("hide");
     } else {
