@@ -50,7 +50,6 @@ const gitRepos = async function (username) {
 const displayRepos = function (repos) {
   //Display the input element
   filterInput.classList.remove("hide");
-
   for (const repo of repos) {
     const repoItem = document.createElement("li");
     repoItem.classList.add("repo");
